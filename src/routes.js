@@ -18,6 +18,7 @@ routes.use(authMiddlewares);
 
 // Plans
 routes.post('/plans', PlansController.store);
+routes.get('/plans', PlansController.index);
 
 routes.post('/users', UserController.store);
 routes.put('/users', UserController.update);
