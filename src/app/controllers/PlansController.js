@@ -42,6 +42,32 @@ class PlansController {
 
     return res.json(plans);
   }
-}
 
+  async update(req, res) {
+    const schema = Yup.object().shape({
+      title: Yup.string().min(5),
+      duration: Yup.number(),
+      price: Yup.number().round()
+    });
+
+    // Validation of schema
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Validation fails' });
+    }
+    // Validação se o plano já esta cadastrado
+    const plan = await Plans.findOne({
+      where: { id: req.params.id }
+    });
+
+    // Se validado os dados gravar no banco
+    const { id, title, duration, price } = await plan.update(req.body);
+
+    return res.json({
+      id,
+      title,
+      duration,
+      price
+    });
+  }
+}
 export default new PlansController();
