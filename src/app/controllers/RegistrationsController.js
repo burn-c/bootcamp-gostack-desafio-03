@@ -38,7 +38,6 @@ class RegistrationController {
         error: 'Plan not registered!'
       });
     }
-
     const registration = await Registrations.create({
       student_id,
       plan_id,
@@ -48,6 +47,14 @@ class RegistrationController {
     });
 
     return res.json(registration);
+  }
+
+  async index(req, res) {
+    const registrations = await Registrations.findAll({
+      attributes: ['id', 'student_id', 'plan_id', 'price', 'canceled_at']
+    });
+
+    return res.json(registrations);
   }
 }
 
