@@ -59,7 +59,7 @@ class PlansController {
       where: { id: req.params.id }
     });
 
-    // Se validado os dados gravar no banco
+    // Se validado os dados, gravar no banco
     const { id, title, duration, price } = await plan.update(req.body);
 
     return res.json({
@@ -82,7 +82,7 @@ class PlansController {
     const plan = await Plans.destroy({
       where: { id: req.params.id }
     });
-    return res.json(`Plan successfully deleted!`);
+    return res.json(`Plan "${plan}" successfully deleted!`);
   }
 }
 export default new PlansController();
