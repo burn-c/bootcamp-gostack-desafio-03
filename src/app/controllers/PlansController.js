@@ -69,5 +69,20 @@ class PlansController {
       price
     });
   }
+
+  async delete(req, res) {
+    const existsplan = await Plans.findOne({
+      where: { id: req.params.id }
+    });
+
+    if (!existsplan) {
+      return res.json(`This plan does not exist.!`);
+    }
+
+    const plan = await Plans.destroy({
+      where: { id: req.params.id }
+    });
+    return res.json(`Plan successfully deleted!`);
+  }
 }
 export default new PlansController();

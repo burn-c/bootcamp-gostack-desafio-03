@@ -20,6 +20,7 @@ routes.use(authMiddlewares);
 routes.post('/plans', PlansController.store);
 routes.get('/plans', PlansController.index);
 routes.put('/plans/:id', PlansController.update);
+routes.delete('/plans/:id', PlansController.delete);
 
 routes.post('/users', UserController.store);
 routes.put('/users', UserController.update);
