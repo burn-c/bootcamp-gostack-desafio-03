@@ -21,6 +21,9 @@ module.exports = {
         type: Sequelize.FLOAT,
         allowNull: false
       },
+      canceled_at: {
+        type: Sequelize.DATE
+      },
       // Regista data de criação e atualização
       created_at: {
         type: Sequelize.DATE,
