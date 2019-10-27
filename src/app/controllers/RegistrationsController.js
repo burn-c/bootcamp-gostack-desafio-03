@@ -4,6 +4,8 @@ import Students from '../models/Students';
 import Plans from '../models/Plans';
 import Registrations from '../models/Registrations';
 
+import Mail from '../../lib/Mail';
+
 class RegistrationController {
   async store(req, res) {
     const schema = Yup.object().shape({
@@ -40,7 +42,7 @@ class RegistrationController {
     }
 
     const numMonths = await Plans.findByPk(req.body.plan_id);
-    const { duration } = numMonths;
+    const { duration, title } = numMonths;
     const priceMonth = numMonths.price;
     const price = duration * priceMonth;
 
@@ -52,6 +54,15 @@ class RegistrationController {
       start_date,
       end_date,
       price
+    });
+
+    const studentMail = await Students.findByPk(req.body.student_id);
+
+    const { name, email } = studentMail;
+    await Mail.sendMail({
+      to: `${name} <${email}>`,
+      subject: `Matrícula Concluída!!!`,
+      text: `Seja bem-vindo ao GymPoint - Sua matrícula foi concluída para o Plano ${title} com duração até ${end_date} no valor total de R$${price},00`
     });
 
     return res.json(registration);
