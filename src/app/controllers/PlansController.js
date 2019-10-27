@@ -79,10 +79,11 @@ class PlansController {
       return res.json(`This plan does not exist.!`);
     }
 
-    const plan = await Plans.destroy({
-      where: { id: req.params.id }
-    });
-    return res.json(`Plan "${plan}" successfully deleted!`);
+    existsplan.canceled_at = new Date();
+
+    await existsplan.save();
+
+    return res.json(`Plan ${req.params.id} successfully deleted!`);
   }
 }
 export default new PlansController();
