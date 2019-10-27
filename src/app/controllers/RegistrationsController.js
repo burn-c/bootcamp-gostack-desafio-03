@@ -61,8 +61,7 @@ class RegistrationController {
     const schema = Yup.object().shape({
       student_id: Yup.number().required(),
       plan_id: Yup.number().required(),
-      start_date: Yup.date().required(),
-      price: Yup.number().round()
+      start_date: Yup.date().required()
     });
 
     if (!(await schema.isValid(req.body))) {
@@ -94,14 +93,21 @@ class RegistrationController {
       where: { id: req.params.id }
     });
 
-    const {
+    const numMonths = await Plans.findByPk(req.body.plan_id);
+    const { duration } = numMonths;
+    const priceMonth = numMonths.price;
+    const price = duration * priceMonth;
+    const end_date = addMonths(new Date(req.body.start_date), duration);
+
+    const { id, student_id, plan_id, start_date } = req.body;
+    await registration.update({
       id,
       student_id,
       plan_id,
+      price,
       start_date,
-      end_date,
-      price
-    } = await registration.update(req.body);
+      end_date
+    });
 
     return res.json({ id, student_id, plan_id, start_date, end_date, price });
   }
