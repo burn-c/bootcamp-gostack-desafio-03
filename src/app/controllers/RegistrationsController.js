@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { addMonths } from 'date-fns';
 import Students from '../models/Students';
 import Plans from '../models/Plans';
 import Registrations from '../models/Registrations';
@@ -8,14 +9,13 @@ class RegistrationController {
     const schema = Yup.object().shape({
       student_id: Yup.number().required(),
       plan_id: Yup.number().required(),
-      start_date: Yup.date().required(),
-      price: Yup.number().round()
+      start_date: Yup.date().required()
     });
 
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation fails' });
     }
-    const { student_id, plan_id, start_date, end_date, price } = req.body;
+    const { student_id, plan_id, start_date, price } = req.body;
 
     // Verifica se o student_id é valido
     const validStudent = await Students.findOne({
@@ -38,6 +38,15 @@ class RegistrationController {
         error: 'Plan not registered!'
       });
     }
+
+    const numMonths = await Plans.findByPk(req.body.plan_id);
+
+    console.log(` DURATION ${numMonths}`);
+    const { duration } = numMonths;
+
+    const end_date = addMonths(new Date(start_date), duration);
+    console.log(` DATA FINAL ${end_date} `);
+
     const registration = await Registrations.create({
       student_id,
       plan_id,
@@ -60,11 +69,10 @@ class RegistrationController {
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation fails' });
     }
-    const { student_id, plan_id, start_date, end_date, price } = req.body;
 
     // Verifica se o student_id é valido
     const validStudent = await Students.findOne({
-      where: { id: student_id }
+      where: { id: req.body.student_id }
     });
 
     if (!validStudent) {
@@ -74,7 +82,7 @@ class RegistrationController {
     }
     // Verifica se o plan_id é valido
     const validPlan = await Plans.findOne({
-      where: { id: plan_id }
+      where: { id: req.body.plan_id }
     });
 
     if (!validPlan) {
@@ -84,15 +92,19 @@ class RegistrationController {
     }
 
     const registration = await Registrations.findOne({
-          where: { id: req.params.id}
-        });
-    const { id, student_id, plan_id, start_date, end_date,
-      price} = await registration.update(req.body);
+      where: { id: req.params.id }
+    });
 
-    return res.json({ id, student_id, plan_id,
+    const {
+      id,
+      student_id,
+      plan_id,
       start_date,
       end_date,
-      price});
+      price
+    } = await registration.update(req.body);
+
+    return res.json({ id, student_id, plan_id, start_date, end_date, price });
   }
 
   async index(req, res) {
@@ -103,13 +115,12 @@ class RegistrationController {
     return res.json(registrations);
   }
 
-  async delete (req,res) {
+  async delete(req, res) {
     const registrationDel = await Registrations.findByPk(req.params.id);
 
     registrationDel.canceled_at = new Date();
 
     await registrationDel.save();
-
 
     return res.json(registrationDel);
   }
