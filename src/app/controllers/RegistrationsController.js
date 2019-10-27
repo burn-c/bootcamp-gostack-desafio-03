@@ -30,12 +30,12 @@ class RegistrationController {
 
     // Verifica se o plan_id é valido
     const validPlan = await Plans.findOne({
-      where: { id: plan_id }
+      where: { id: plan_id, canceled_at: null }
     });
 
     if (!validPlan) {
       return res.status(401).json({
-        error: 'Plan not registered!'
+        error: 'Plan not registered or canceled!'
       });
     }
 
@@ -81,12 +81,12 @@ class RegistrationController {
     }
     // Verifica se o plan_id é valido
     const validPlan = await Plans.findOne({
-      where: { id: req.body.plan_id }
+      where: { id: req.body.plan_id, canceled_at: null }
     });
 
     if (!validPlan) {
       return res.status(401).json({
-        error: 'Plan not registered!'
+        error: 'Plan not registered or canceled!'
       });
     }
 
