@@ -15,7 +15,7 @@ class RegistrationController {
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation fails' });
     }
-    const { student_id, plan_id, start_date, price } = req.body;
+    const { student_id, plan_id, start_date } = req.body;
 
     // Verifica se o student_id é valido
     const validStudent = await Students.findOne({
@@ -40,12 +40,11 @@ class RegistrationController {
     }
 
     const numMonths = await Plans.findByPk(req.body.plan_id);
-
-    console.log(` DURATION ${numMonths}`);
     const { duration } = numMonths;
+    const priceMonth = numMonths.price;
+    const price = duration * priceMonth;
 
     const end_date = addMonths(new Date(start_date), duration);
-    console.log(` DATA FINAL ${end_date} `);
 
     const registration = await Registrations.create({
       student_id,
