@@ -18,6 +18,29 @@ class Help_OrdersController {
 
     return res.json(order);
   }
+
+  async update(req, res) {
+    const question = await HelpOrders.findOne({
+      where: { id: req.params.id }
+    });
+
+    if (!question) {
+      return res.status(401).json(`Not found`);
+    }
+
+    const answer_at = new Date();
+    const { id, answer } = req.body;
+    await question.update({
+      id,
+      answer,
+      answer_at
+    });
+    return res.json({
+      id,
+      answer_at,
+      answer
+    });
+  }
 }
 
 export default new Help_OrdersController();
