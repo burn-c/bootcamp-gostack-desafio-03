@@ -15,7 +15,7 @@ class Help_OrdersController {
 
     const { question } = req.body;
     const student_id = req.params.id;
-    console.log(question);
+
     const order = await HelpOrders.create({ student_id, question });
 
     return res.json(order);
@@ -55,6 +55,15 @@ class Help_OrdersController {
       answer_at,
       answer
     });
+  }
+
+  async index(req, res) {
+    const helpList = await HelpOrders.findAll({
+      where: { answer: null },
+      attributes: ['id', 'question', 'answer']
+    });
+
+    return res.json(helpList);
   }
 }
 

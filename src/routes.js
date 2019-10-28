@@ -28,6 +28,7 @@ routes.use(authMiddlewares);
 
 // Help Orders - Answers
 routes.post('/help_orders/:id/answer', HelpOrdersController.update);
+routes.get('/help_orders/list', HelpOrdersController.index);
 
 // Plans
 routes.post('/plans', PlansController.store);
