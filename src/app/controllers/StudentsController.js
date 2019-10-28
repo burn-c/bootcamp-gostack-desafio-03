@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 // eslint-disable-next-line import/no-unresolved
 import Students from '../models/Students';
+import HelpOrders from '../models/HelpOrders';
 
 class StudentsController {
   async store(req, res) {
@@ -86,6 +87,14 @@ class StudentsController {
       provider
     });
     // return res.json({ error: 'Estudante não cadastrado!!' });
+  }
+
+  async index(req, res) {
+    const listStudent = await HelpOrders.findAll({
+      where: { student_id: req.params.id }
+    });
+
+    return res.json(listStudent);
   }
 }
 
