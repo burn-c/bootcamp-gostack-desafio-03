@@ -11,20 +11,20 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: { model: 'students', key: 'id' },
         onUpdate: 'CASCADE',
-        onDelete: 'SET NULL',
+        onDelete: 'CASCADE',
         allowNull: false
       },
       question: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: false
       },
       answer: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
       },
       answer_at: {
         type: Sequelize.DATE,
-        allowNull: false
+        allowNull: true
       },
       created_at: {
         type: Sequelize.DATE,

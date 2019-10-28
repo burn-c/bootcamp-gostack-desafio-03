@@ -8,6 +8,7 @@ import PlansController from './app/controllers/PlansController';
 import RegistrationsController from './app/controllers/RegistrationsController';
 import authMiddlewares from './app/middlewares/auth';
 import CheckinsController from './app/controllers/CheckinsController';
+import HelpOrdersController from './app/controllers/HelpOrdersController';
 
 const routes = new Router();
 
@@ -19,6 +20,9 @@ routes.put('/students', StudentsController.update);
 // Checkins
 routes.post('/students/:id/checkins', CheckinsController.store);
 routes.get('/students/:id/checkins', CheckinsController.index);
+
+// Help Orders
+routes.post('/students/:id/help_orders', HelpOrdersController.store);
 
 routes.use(authMiddlewares);
 
