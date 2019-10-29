@@ -47,7 +47,12 @@ class Help_OrdersController {
     await Mail.sendMail({
       to: `${name} <${email}>`,
       subject: `Sua pergunta foi respondida!!!`,
-      text: `Pergunta: ${question} - Resposta: ${answer}`
+      template: 'answer',
+      context: {
+        name,
+        question,
+        answer
+      }
     });
 
     return res.json({
