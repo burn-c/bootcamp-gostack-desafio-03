@@ -4,7 +4,8 @@ import Students from '../models/Students';
 import Plans from '../models/Plans';
 import Registrations from '../models/Registrations';
 
-import Mail from '../../lib/Mail';
+import RegistrationMail from '../jobs/RegistrationMail';
+import Queue from '../../lib/Queue';
 
 class RegistrationController {
   async store(req, res) {
@@ -59,17 +60,14 @@ class RegistrationController {
     const studentMail = await Students.findByPk(req.body.student_id);
 
     const { name, email } = studentMail;
-    await Mail.sendMail({
-      to: `${name} <${email}>`,
-      subject: `Matrícula Concluída!!!`,
-      template: 'registration',
-      context: {
-        student: name,
-        plan: title,
-        start_date,
-        end_date,
-        price
-      }
+
+    await Queue.add(RegistrationMail.key, {
+      name,
+      email,
+      title,
+      start_date,
+      end_date,
+      price
     });
 
     return res.json(registration);
