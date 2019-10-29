@@ -8,7 +8,7 @@ class RegistrationMail {
   async handle({ data }) {
     const { name, email, title, start_date, end_date, price } = data;
 
-    console.log(`A fila executou!!!`);
+    console.log(`A REGISTRATION fila executou!!!`);
     await Mail.sendMail({
       to: `${name} <${email}>`,
       subject: `Matrícula Concluída!!!`,

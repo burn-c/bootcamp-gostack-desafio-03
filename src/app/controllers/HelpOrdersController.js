@@ -1,7 +1,8 @@
 import HelpOrders from '../models/HelpOrders';
 import Students from '../models/Students';
 
-import Mail from '../../lib/Mail';
+import AnswerMail from '../jobs/AnswerMail';
+import Queue from '../../lib/Queue';
 
 class Help_OrdersController {
   async store(req, res) {
@@ -44,15 +45,12 @@ class Help_OrdersController {
     const { name, email } = await Students.findOne({
       where: { id: student_id }
     });
-    await Mail.sendMail({
-      to: `${name} <${email}>`,
-      subject: `Sua pergunta foi respondida!!!`,
-      template: 'answer',
-      context: {
-        name,
-        question,
-        answer
-      }
+
+    await Queue.add(AnswerMail.key, {
+      question,
+      answer,
+      name,
+      email
     });
 
     return res.json({
