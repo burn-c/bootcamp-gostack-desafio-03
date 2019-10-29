@@ -62,7 +62,14 @@ class RegistrationController {
     await Mail.sendMail({
       to: `${name} <${email}>`,
       subject: `Matrícula Concluída!!!`,
-      text: `Seja bem-vindo ao GymPoint - Sua matrícula foi concluída para o Plano ${title} com duração até ${end_date} no valor total de R$${price},00`
+      template: 'registration',
+      context: {
+        student: name,
+        plan: title,
+        start_date,
+        end_date,
+        price
+      }
     });
 
     return res.json(registration);
