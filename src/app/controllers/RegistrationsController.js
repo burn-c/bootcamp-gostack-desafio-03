@@ -130,7 +130,16 @@ class RegistrationController {
 
   async index(req, res) {
     const registrations = await Registrations.findAll({
-      attributes: ['id', 'student_id', 'plan_id', 'price', 'canceled_at']
+      attributes: [
+        'id',
+        'student_id',
+        'plan_id',
+        'price',
+        'canceled_at',
+        'start_date',
+        'end_date',
+        'active'
+      ]
     });
 
     return res.json(registrations);

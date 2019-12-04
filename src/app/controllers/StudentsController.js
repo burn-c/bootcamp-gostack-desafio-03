@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 // eslint-disable-next-line import/no-unresolved
+import { Op } from 'sequelize';
 import Students from '../models/Students';
 import HelpOrders from '../models/HelpOrders';
 
@@ -90,11 +91,20 @@ class StudentsController {
   }
 
   async index(req, res) {
-    const listStudent = await HelpOrders.findAll({
-      where: { student_id: req.params.id }
+    if (req.params.id) {
+      const listStudent = await HelpOrders.findAll({
+        where: { student_id: req.params.id }
+      });
+      return res.json(listStudent);
+    }
+
+    const searchName = req.query.q;
+
+    const nameStudent = await Students.findAll({
+      where: { name: { [Op.like]: `${searchName}%` } }
     });
 
-    return res.json(listStudent);
+    return res.json(nameStudent);
   }
 }
 
