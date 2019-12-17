@@ -91,20 +91,26 @@ class StudentsController {
   }
 
   async index(req, res) {
+    // SE ENVIAR O ID DO STUDENT,ELE BUSCA "HelpOrders" EXISTENTES
     if (req.params.id) {
       const listStudent = await HelpOrders.findAll({
-        where: { student_id: req.params.id, deleted_at: null }
+        where: { student_id: req.params.id }
       });
       return res.json(listStudent);
     }
 
     const searchName = req.query.q;
 
+    // BUSCA A LISTAGEM DE TODOS STUDENTS
     const nameStudent = await Students.findAll({
       where: { name: { [Op.like]: `${searchName}%` } }
     });
+    // RETIRA DA LISTAGEM TODOS STUDENTS DELETADOS
+    const validStudent = nameStudent.filter(user => {
+      return user.deleted_at === null;
+    });
 
-    return res.json(nameStudent);
+    return res.json(validStudent);
   }
 
   async delete(req, res) {
