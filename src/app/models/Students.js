@@ -10,7 +10,8 @@ class Students extends Model {
         idade: Sequelize.INTEGER,
         peso: Sequelize.FLOAT,
         altura: Sequelize.FLOAT,
-        provider: Sequelize.BOOLEAN
+        provider: Sequelize.BOOLEAN,
+        deleted_at: Sequelize.DATE
       },
       {
         sequelize

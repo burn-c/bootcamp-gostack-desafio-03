@@ -76,7 +76,7 @@ class PlansController {
     });
 
     if (!existsplan) {
-      return res.json(`This plan does not exist.!`);
+      return res.json(`This plan does not exist!`);
     }
 
     existsplan.canceled_at = new Date();

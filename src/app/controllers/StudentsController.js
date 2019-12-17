@@ -93,7 +93,7 @@ class StudentsController {
   async index(req, res) {
     if (req.params.id) {
       const listStudent = await HelpOrders.findAll({
-        where: { student_id: req.params.id }
+        where: { student_id: req.params.id, deleted_at: null }
       });
       return res.json(listStudent);
     }
@@ -105,6 +105,22 @@ class StudentsController {
     });
 
     return res.json(nameStudent);
+  }
+
+  async delete(req, res) {
+    const existStudent = await Students.findOne({
+      where: { id: req.params.id }
+    });
+
+    if (!existStudent) {
+      return res.json(`This student  does not exist!`);
+    }
+
+    existStudent.deleted_at = new Date();
+
+    await existStudent.save();
+
+    return res.json(`Student ${req.params.id} successfully deleted!`);
   }
 }
 
