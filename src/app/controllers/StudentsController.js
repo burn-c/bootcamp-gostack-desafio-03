@@ -113,6 +113,14 @@ class StudentsController {
     return res.json(validStudent);
   }
 
+  async edit(req, res) {
+    const response = await Students.findOne({
+      where: { id: req.params.id }
+    });
+
+    return res.json(response);
+  }
+
   async delete(req, res) {
     const existStudent = await Students.findOne({
       where: { id: req.params.id }

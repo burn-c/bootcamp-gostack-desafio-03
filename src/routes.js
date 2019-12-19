@@ -20,6 +20,7 @@ routes.get('/students/:id/help_orders', StudentsController.index);
 routes.get('/students', StudentsController.index);
 routes.get('/students/:id', StudentsController.index);
 routes.delete('/students/:id', StudentsController.delete);
+routes.get('/students/:id/edit', StudentsController.edit);
 
 // Checkins
 routes.post('/students/:id/checkins', CheckinsController.store);
