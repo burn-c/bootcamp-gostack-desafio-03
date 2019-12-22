@@ -50,7 +50,6 @@ class StudentsController {
   async update(req, res) {
     // Inicio da Validation Yup
     const schema = Yup.object().shape({
-      id: Yup.string().required(),
       name: Yup.string(),
       email: Yup.string()
         .email()
@@ -71,17 +70,18 @@ class StudentsController {
     // End
 
     const student = await Students.findOne({
-      where: { id: req.body.id }
+      where: { email: req.body.email }
     });
 
     if (!student) {
       return res.status(400).json({ error: 'Estudante não cadastrado!' });
     }
-    const { id, name, idade, peso, altura, provider } = await student.update(
+    console.log(req.body);
+    const { name, idade, peso, altura, provider } = await student.update(
       req.body
     );
+
     return res.json({
-      id,
       name,
       idade,
       peso,
