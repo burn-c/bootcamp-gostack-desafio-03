@@ -104,7 +104,7 @@ class StudentsController {
 
     // BUSCA A LISTAGEM DE TODOS STUDENTS
     const nameStudent = await Students.findAll({
-      where: { name: { [Op.like]: `${searchName}%` } }
+      where: { name: { [Op.iLike]: `${searchName}%` } }
     });
     // RETIRA DA LISTAGEM TODOS STUDENTS DELETADOS
     const validStudent = nameStudent.filter(user => {

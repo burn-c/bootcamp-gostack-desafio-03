@@ -46,7 +46,7 @@ class PlansController {
 
   async update(req, res) {
     const schema = Yup.object().shape({
-      title: Yup.string().min(5),
+      title: Yup.string().min(3),
       duration: Yup.number(),
       price: Yup.number().round()
     });
