@@ -139,6 +139,18 @@ class RegistrationController {
         'start_date',
         'end_date',
         'active'
+      ],
+      include: [
+        {
+          model: Plans,
+          as: 'plan',
+          attributes: ['title']
+        },
+        {
+          model: Students,
+          as: 'student',
+          attributes: ['name']
+        }
       ]
     });
 
