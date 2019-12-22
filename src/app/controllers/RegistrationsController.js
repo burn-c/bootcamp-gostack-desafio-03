@@ -130,6 +130,7 @@ class RegistrationController {
 
   async index(req, res) {
     const registrations = await Registrations.findAll({
+      where: { canceled_at: null },
       attributes: [
         'id',
         'student_id',
