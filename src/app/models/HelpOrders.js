@@ -15,6 +15,13 @@ class HelpOrders extends Model {
     );
     return this;
   }
+
+  static associate(models) {
+    this.belongsTo(models.Students, {
+      foreignKey: 'student_id',
+      as: 'student'
+    });
+  }
 }
 
 export default HelpOrders;
