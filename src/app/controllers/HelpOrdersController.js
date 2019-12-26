@@ -74,7 +74,7 @@ class Help_OrdersController {
         }
       ],
       limit: 10,
-      offset: page - 1
+      offset: (page - 1) * 10
     });
 
     return res.json(helpList);

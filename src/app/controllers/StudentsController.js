@@ -107,7 +107,7 @@ class StudentsController {
     const nameStudent = await Students.findAll({
       where: { name: { [Op.iLike]: `${searchName}%` }, deleted_at: null },
       limit: 10,
-      offset: page - 1
+      offset: (page - 1) * 10
     });
 
     return res.json(nameStudent);

@@ -144,7 +144,7 @@ class RegistrationController {
         'active'
       ],
       limit: 10,
-      offset: page - 1,
+      offset: (page - 1) * 10,
       include: [
         {
           model: Plans,

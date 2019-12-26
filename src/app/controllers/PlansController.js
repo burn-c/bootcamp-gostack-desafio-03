@@ -36,12 +36,12 @@ class PlansController {
   }
 
   async index(req, res) {
-    const { page = 1 } = req.query;
+    const { page } = req.query;
     const plans = await Plans.findAll({
       where: { canceled_at: null },
       attributes: ['id', 'title', 'duration', 'price', 'canceled_at'],
       limit: 10,
-      offset: page - 1
+      offset: (page - 1) * 10
     });
 
     return res.json(plans);
