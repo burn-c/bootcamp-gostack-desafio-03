@@ -61,6 +61,8 @@ class Help_OrdersController {
   }
 
   async index(req, res) {
+    const { page = 1 } = req.query;
+
     const helpList = await HelpOrders.findAll({
       where: { answer: null },
       attributes: ['id', 'student_id', 'question', 'answer'],
@@ -70,7 +72,9 @@ class Help_OrdersController {
           as: 'student',
           attributes: ['name']
         }
-      ]
+      ],
+      limit: 10,
+      offset: page - 1
     });
 
     return res.json(helpList);

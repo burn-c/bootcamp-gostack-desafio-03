@@ -129,6 +129,8 @@ class RegistrationController {
   }
 
   async index(req, res) {
+    const { page = 1 } = req.query;
+
     const registrations = await Registrations.findAll({
       where: { canceled_at: null },
       attributes: [
@@ -141,6 +143,8 @@ class RegistrationController {
         'end_date',
         'active'
       ],
+      limit: 10,
+      offset: page - 1,
       include: [
         {
           model: Plans,

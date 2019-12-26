@@ -17,7 +17,7 @@ routes.post('/sessions', SessionController.store);
 routes.post('/students', StudentsController.store);
 routes.put('/students', StudentsController.update);
 routes.get('/students/:id/help_orders', StudentsController.index);
-routes.get('/students', StudentsController.index);
+routes.get('/students/:page?', StudentsController.index);
 routes.get('/students/:id', StudentsController.index);
 routes.delete('/students/:id', StudentsController.delete);
 routes.get('/students/:id/edit', StudentsController.edit);
@@ -37,13 +37,13 @@ routes.get('/help_orders/list', HelpOrdersController.index);
 
 // Plans
 routes.post('/plans', PlansController.store);
-routes.get('/plans', PlansController.index);
+routes.get('/plans/:page?', PlansController.index);
 routes.put('/plans/:id', PlansController.update);
 routes.delete('/plans/:id', PlansController.delete);
 
 // Registrations
 routes.post('/registrations', RegistrationsController.store);
-routes.get('/registrations', RegistrationsController.index);
+routes.get('/registrations/:page?', RegistrationsController.index);
 routes.put('/registrations/:id', RegistrationsController.update);
 routes.delete('/registrations/:id', RegistrationsController.delete);
 

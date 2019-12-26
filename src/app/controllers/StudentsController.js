@@ -101,17 +101,16 @@ class StudentsController {
     }
 
     const searchName = req.query.q;
+    const { page = 1 } = req.query;
 
-    // BUSCA A LISTAGEM DE TODOS STUDENTS
+    // BUSCA A LISTAGEM DE TODOS STUDENTS E RETIRA DA LISTAGEM TODOS STUDENTS DELETADOS
     const nameStudent = await Students.findAll({
-      where: { name: { [Op.iLike]: `${searchName}%` } }
-    });
-    // RETIRA DA LISTAGEM TODOS STUDENTS DELETADOS
-    const validStudent = nameStudent.filter(user => {
-      return user.deleted_at === null;
+      where: { name: { [Op.iLike]: `${searchName}%` }, deleted_at: null },
+      limit: 10,
+      offset: page - 1
     });
 
-    return res.json(validStudent);
+    return res.json(nameStudent);
   }
 
   async edit(req, res) {
