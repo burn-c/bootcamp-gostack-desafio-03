@@ -10,7 +10,7 @@ class PlansController {
         .round()
         .required()
     });
-    console.log(req.body.title);
+
     // Validation of schema
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation fails' });
@@ -37,11 +37,23 @@ class PlansController {
 
   async index(req, res) {
     const { page } = req.query;
+
+    // RETORNA PAGINAÇÃO COM 10 PLANOS
+    if (page > 0) {
+      const plans = await Plans.findAll({
+        where: { canceled_at: null },
+        attributes: ['id', 'title', 'duration', 'price', 'canceled_at'],
+        limit: 10,
+        offset: (page - 1) * 10
+      });
+
+      return res.json(plans);
+    }
+
+    // BUSCA TODOS PLANOS
     const plans = await Plans.findAll({
       where: { canceled_at: null },
-      attributes: ['id', 'title', 'duration', 'price', 'canceled_at'],
-      limit: 10,
-      offset: (page - 1) * 10
+      attributes: ['id', 'title', 'duration', 'price', 'canceled_at']
     });
 
     return res.json(plans);
