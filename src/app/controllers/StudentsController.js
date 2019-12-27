@@ -104,10 +104,19 @@ class StudentsController {
     const { page = 1 } = req.query;
 
     // BUSCA A LISTAGEM DE TODOS STUDENTS E RETIRA DA LISTAGEM TODOS STUDENTS DELETADOS
+    // LISTAGEM COM PAGINAÇÃO
+    if (page > 0) {
+      const nameStudent = await Students.findAll({
+        where: { name: { [Op.iLike]: `${searchName}%` }, deleted_at: null },
+        limit: 10,
+        offset: (page - 1) * 10
+      });
+      return res.json(nameStudent);
+    }
+
+    // LISTAGEM COMPLETA SEM PAGINAÇÃO
     const nameStudent = await Students.findAll({
-      where: { name: { [Op.iLike]: `${searchName}%` }, deleted_at: null },
-      limit: 10,
-      offset: (page - 1) * 10
+      where: { name: { [Op.iLike]: `${searchName}%` }, deleted_at: null }
     });
 
     return res.json(nameStudent);

@@ -33,7 +33,7 @@ routes.use(authMiddlewares);
 
 // Help Orders - Answers
 routes.put('/help_orders/:id/answer', HelpOrdersController.update);
-routes.get('/help_orders/list', HelpOrdersController.index);
+routes.get('/help_orders/list/:page?', HelpOrdersController.index);
 
 // Plans
 routes.post('/plans', PlansController.store);
