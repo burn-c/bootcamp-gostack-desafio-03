@@ -14,22 +14,22 @@ const routes = new Router();
 
 routes.post('/sessions', SessionController.store);
 
-routes.post('/students', StudentsController.store);
-routes.put('/students', StudentsController.update);
-routes.get('/students/:id/help_orders', StudentsController.index);
-routes.get('/students/:page?', StudentsController.index);
-routes.get('/students/:id', StudentsController.index);
-routes.delete('/students/:id', StudentsController.delete);
-routes.get('/students/:id/edit', StudentsController.edit);
-
 // Checkins
 routes.post('/students/:id/checkins', CheckinsController.store);
 routes.get('/students/:id/checkins', CheckinsController.index);
 
-// Help Orders
+// Help Orders List student
+routes.get('/students/:id/help_orders', StudentsController.index);
 routes.post('/students/:id/help_orders', HelpOrdersController.store);
 
 routes.use(authMiddlewares);
+
+routes.post('/students', StudentsController.store);
+routes.put('/students', StudentsController.update);
+routes.get('/students/:page?', StudentsController.index);
+routes.get('/students/:id', StudentsController.index);
+routes.delete('/students/:id', StudentsController.delete);
+routes.get('/students/:id/edit', StudentsController.edit);
 
 // Help Orders - Answers
 routes.put('/help_orders/:id/answer', HelpOrdersController.update);

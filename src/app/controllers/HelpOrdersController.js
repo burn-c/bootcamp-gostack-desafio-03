@@ -64,7 +64,7 @@ class Help_OrdersController {
     const { page = 1 } = req.query;
 
     const helpList = await HelpOrders.findAll({
-      where: { answer: null },
+      where: { student_id: null },
       attributes: ['id', 'student_id', 'question', 'answer'],
       include: [
         {
