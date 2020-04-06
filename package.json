@@ -1,6 +1,8 @@
 {
   "name": "bootcamp-gostack-desafio-03",
   "version": "1.0.0",
+  "engines": {
+    "node": "12.13.0"},
   "main": "index.js",
   "repository": "git@github.com:burn-c/bootcamp-gostack-desafio-03.git",
   "author": "burn-c <chopcsom@gmail.com>",
@@ -24,7 +26,9 @@
     "pg": "^7.12.1",
     "pg-hstore": "^2.3.3",
     "sequelize": "^5.21.1",
-    "yup": "^0.27.0"
+    "yup": "^0.27.0",
+    "sequelize-cli": "^5.5.1",
+    "sucrase": "^3.10.1"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^2.4.0",
